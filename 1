@@ -1,0 +1,86 @@
+int push1Pin = 5;
+int push2Pin = 4;
+int push3Pin = 2;
+int push4Pin = 3;
+
+int push1Value;
+int push2Value;
+int push3Value;
+int push4Value;
+
+int ledPin1 = 7;
+int ledPin2 = 8;
+int ledPin3 = 9;
+int ledPin4 = 10;
+
+void setup() {
+ 
+  Serial.begin(9600);
+
+  pinMode(push1Pin, INPUT);
+  pinMode(push2Pin, INPUT);
+  pinMode(push3Pin, INPUT);
+  pinMode(push4Pin, INPUT);
+
+  pinMode(ledPin1, OUTPUT);
+  pinMode(ledPin2, OUTPUT);
+  pinMode(ledPin3, OUTPUT);
+  pinMode(ledPin4, OUTPUT);
+
+  Serial.println("System Initialized: Monitoring Push Buttons and LEDs...");
+}
+
+void loop() {
+
+  push1Value = digitalRead(push1Pin);
+  push2Value = digitalRead(push2Pin);
+  push3Value = digitalRead(push3Pin);
+  push4Value = digitalRead(push4Pin);
+
+  if(push1Value == HIGH) {
+    digitalWrite(ledPin1, HIGH);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, LOW);
+    digitalWrite(ledPin4, LOW);
+    Serial.println("Button1 PRESSED → LED1 ON");
+  }
+  else if(push2Value == HIGH) {
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, HIGH);
+    digitalWrite(ledPin3, LOW);
+    digitalWrite(ledPin4, LOW);
+    Serial.println("Button2 PRESSED → LED2 ON");
+  }
+  else if(push3Value == HIGH) {
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, HIGH);
+    digitalWrite(ledPin4, LOW);
+    Serial.println("Button3 PRESSED → LED3 ON");
+  }
+  else if(push4Value == HIGH) {
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, LOW);
+    digitalWrite(ledPin4, HIGH);
+    Serial.println("Button4 PRESSED → LED4 ON");
+  }
+  else {
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, LOW);
+    digitalWrite(ledPin4, LOW);
+    Serial.println("No button pressed → All LEDs OFF");
+  }
+
+  Serial.print("Buttons: ");
+  Serial.print(push1Value);
+  Serial.print(" ");
+  Serial.print(push2Value);
+  Serial.print(" ");
+  Serial.print(push3Value);
+  Serial.print(" ");
+  Serial.println(push4Value);
+
+  delay(500);
+}
