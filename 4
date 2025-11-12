@@ -1,0 +1,55 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);  
+
+const int trigPin = 4;   
+const int echoPin = 6;   
+
+void setup() {
+
+  pinMode(trigPin, OUTPUT);  
+  pinMode(echoPin, INPUT);   
+
+  Serial.begin(9600);        
+
+  lcd.init();                
+  lcd.backlight();          
+
+void loop() {
+  
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  long duration = pulseIn(echoPin, HIGH, 30000);
+
+  lcd.clear();  
+
+  if (duration == 0) {
+    Serial.println("No echo detected (timeout)");
+
+    lcd.setCursor(0, 0);       
+    lcd.print("No echo detected");
+    lcd.setCursor(0, 1);       
+    lcd.print("(timeout)");
+  } else {
+    float distance = duration * 0.0343 / 2.0;
+
+    Serial.print("Distance in cm: ");
+    Serial.println(distance, 2); 
+
+    lcd.setCursor(0, 0);        
+    lcd.print("Distance: ");
+    lcd.print(distance, 1);   
+    lcd.print("CM");
+
+    lcd.setCursor(0, 1);
+    lcd.print("HC-SR04 Sensor");
+  }
+
+  delay(500); 
+}
