@@ -1,0 +1,39 @@
+#include <SD.h>
+#include <SPI.h>
+
+const int chipSelect = 10;
+
+const int lm35Pin = A0;
+
+void setup() {
+  Serial.begin(9600);
+
+  if (!SD.begin(chipSelect)) {      
+    Serial.println("SD init failed!"); 
+    while (1);                        
+  }
+  Serial.println("SD init done.");  
+}
+
+void loop() {
+  int adcValue = analogRead(lm35Pin);
+  
+  float temperatureC = (adcValue * 5.0 * 100.0) / 1024.0;
+
+  File dataFile = SD.open("data.csv", FILE_WRITE);
+  
+  if (dataFile) {
+    dataFile.print(millis() / 1000); 
+    dataFile.print(",");           
+    
+    dataFile.println(temperatureC);
+    
+    dataFile.close();                
+
+    Serial.println("Data saved.");   
+  } else {
+    Serial.println("Error opening file!");
+  }
+  
+  delay(1000);
+}
