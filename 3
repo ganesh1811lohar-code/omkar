@@ -1,0 +1,30 @@
+const int Pot = A0;
+
+#include <Servo.h>
+
+Servo myservo;
+
+void setup() {
+  pinMode(Pot, INPUT);          
+  myservo.attach(8);            
+  
+  Serial.begin(9600);         
+  Serial.println("Potentiometer to Servo Angle Control");
+  Serial.println("==================================");
+}
+
+void loop() {
+
+  int potVal = analogRead(Pot);
+
+  int angle = map(potVal, 0, 1023, 0, 180);
+
+  myservo.write(angle);
+
+  Serial.print("Potentiometer Value: ");
+  Serial.print(potVal);
+  Serial.print("   |   Servo Angle: ");
+  Serial.println(angle);
+
+  delay(100);
+}
