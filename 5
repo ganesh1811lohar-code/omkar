@@ -1,0 +1,34 @@
+const int Pot = A0;
+
+const int motorA1 = 5;   
+const int motorA2 = 6;   
+const int enableA = 9;  
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(Pot, INPUT);
+
+  pinMode(motorA1, OUTPUT);
+  pinMode(motorA2, OUTPUT);
+  pinMode(enableA, OUTPUT);
+}
+
+void loop() {
+
+  int potVal = analogRead(Pot);           
+  
+  int speed = map(potVal, 0, 1023, 0, 255);  
+
+  digitalWrite(motorA1, HIGH);
+  digitalWrite(motorA2, LOW);
+
+  analogWrite(enableA, speed);     
+
+  Serial.print("Potentiometer Value: ");
+  Serial.print(potVal);
+  Serial.print("  |  Motor Speed (PWM): ");
+  Serial.println(speed);
+
+  delay(200);          
+}
